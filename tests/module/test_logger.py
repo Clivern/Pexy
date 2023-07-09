@@ -22,7 +22,7 @@
 
 import logging
 import pytest
-from opswork.module.logger import Logger
+from pexy.module.logger import Logger
 
 
 def test_logger():
