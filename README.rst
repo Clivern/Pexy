@@ -33,3 +33,17 @@ To use pexy, follow the following steps:
 .. code-block::
 
     $ pexy --help
+
+
+4. Get pexy version
+
+.. code-block::
+
+    $ pexy --version
+
+
+5. Get Store Info
+
+.. code-block::
+
+    $ pexy --shop-name xxxxx-xx --token shpat_xxxxxxxxxxxxx store-info
