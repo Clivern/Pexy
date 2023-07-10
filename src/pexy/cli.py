@@ -37,8 +37,14 @@ def main(name, token):
     TOKEN = token
 
 
-@main.command(help="Get store information from Shopify")
-def store_info():
+@main.group(help="Commands related to store operations")
+def store():
+    """Store command group for Shopify operations."""
+    pass
+
+
+@store.command(help="Get store information from Shopify")
+def info():
     """Command to retrieve and display the store information."""
     command = InfoCommand(NAME, TOKEN)
     return command.exec()
