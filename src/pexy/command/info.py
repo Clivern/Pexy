@@ -20,19 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import sys
 import json
 import click
+from rich.console import Console
+from rich.json import JSON
 from pexy.module import Shopify
 
 
 class Info:
 
     def __init__(self, shop_name, token):
+        self.console = Console()
         self.shopify_api = Shopify(shop_name, token)
 
     def exec(self):
         try:
             shop_info = self.shopify_api.get_shop_info()
-            click.echo(json.dumps(shop_info, indent=2))
+            click.echo(self.console.print_json(json.dumps(shop_info)))
         except Exception as err:
-            raise click.ClickException(f"Error fetching store info: {err}")
+            click.echo(self.console.print_json(json.dumps(
+                {"error": str(err)}
+            )))
+            sys.exit(1)
