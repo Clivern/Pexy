@@ -25,21 +25,22 @@ import click
 from pexy import __version__
 from pexy.command import Info as InfoCommand
 
-@click.group(help="🐺 Shopify Store Swiss Knife")
+
+@click.group(help="🐺 Shopify Store Swiss Knife.")
 @click.version_option(version=__version__, help="Show the current version")
-@click.option('--shop-name', required=True, help='Your Shopify store name (without .myshopify.com)')
+@click.option('--name', required=True, help='Your Shopify store name (without .myshopify.com)')
 @click.option('--token', required=True, help='Your Shopify access token')
 def main(shop_name, token):
     """Main command group for Shopify CLI."""
-    global SHOP_NAME, TOKEN
-    SHOP_NAME = shop_name
+    global NAME, TOKEN
+    NAME = name
     TOKEN = token
 
 
 @main.command(help="Get store information from Shopify")
 def store_info():
     """Command to retrieve and display the store information."""
-    command = InfoCommand(SHOP_NAME, TOKEN)
+    command = InfoCommand(NAME, TOKEN)
     return command.exec()
 
 
