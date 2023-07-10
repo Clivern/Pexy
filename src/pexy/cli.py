@@ -30,7 +30,7 @@ from pexy.command import Info as InfoCommand
 @click.version_option(version=__version__, help="Show the current version")
 @click.option('--name', required=True, help='Your Shopify store name (without .myshopify.com)')
 @click.option('--token', required=True, help='Your Shopify access token')
-def main(shop_name, token):
+def main(name, token):
     """Main command group for Shopify CLI."""
     global NAME, TOKEN
     NAME = name
