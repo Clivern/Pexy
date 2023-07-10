@@ -28,10 +28,25 @@ class Shopify:
     def __init__(self, shop_name, access_token):
         self.shop_name = shop_name
         self.access_token = access_token
-        self.base_url = f"https://{self.shop_name}.myshopify.com/admin/api/2021-07"
+        self.base_url = f"https://{self.shop_name}.myshopify.com"
 
     def get_shop_info(self):
-        url = f"{self.base_url}/shop.json"
+        url = f"{self.base_url}/admin/api/2021-07/shop.json"
+
+        headers = {
+            'Content-Type': 'application/json',
+            'X-Shopify-Access-Token': self.access_token
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_access_scopes(self):
+        url = f"{self.base_url}/admin/oauth/access_scopes.json"
 
         headers = {
             'Content-Type': 'application/json',

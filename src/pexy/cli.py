@@ -23,7 +23,8 @@
 import click
 
 from pexy import __version__
-from pexy.command import Info as InfoCommand
+from pexy.command import StoreInfo as StoreInfoCommand
+from pexy.command import AccessScopes as AccessScopesCommand
 
 
 @click.group(help="🐺 Shopify Store Swiss Knife.")
@@ -43,10 +44,23 @@ def store():
     pass
 
 
+@main.group(help="Commands related to store access")
+def access():
+    """Access command group for scopes and permissions."""
+    pass
+
+
 @store.command(help="Get store information from Shopify")
 def info():
     """Command to retrieve and display the store information."""
-    command = InfoCommand(NAME, TOKEN)
+    command = StoreInfoCommand(NAME, TOKEN)
+    return command.exec()
+
+
+@access.command(help="Get access scope information from Shopify")
+def scope():
+    """Command to retrieve access scope information."""
+    command = AccessScopesCommand(NAME, TOKEN)
     return command.exec()
 
 

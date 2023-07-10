@@ -23,20 +23,20 @@
 import sys
 import json
 import click
-from rich.console import Console
 from rich.json import JSON
 from pexy.module import Shopify
+from rich.console import Console
 
 
-class Info:
+class StoreInfo:
 
-    def __init__(self, shop_name, token):
+    def __init__(self, name, token):
         self.console = Console()
-        self.shopify_api = Shopify(shop_name, token)
+        self.shopify = Shopify(name, token)
 
     def exec(self):
         try:
-            shop_info = self.shopify_api.get_shop_info()
+            shop_info = self.shopify.get_shop_info()
             click.echo(self.console.print_json(json.dumps(shop_info)))
         except Exception as err:
             click.echo(self.console.print_json(json.dumps(

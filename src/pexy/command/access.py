@@ -20,6 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import sys
+import json
+import click
+from rich.json import JSON
+from pexy.module import Shopify
+from rich.console import Console
 
-from .store import StoreInfo
-from .access import AccessScopes
+
+class AccessScopes:
+
+    def __init__(self, name, token):
+        self.console = Console()
+        self.shopify = Shopify(name, token)
+
+    def exec(self):
+        try:
+            scopes = self.shopify.get_access_scopes()
+            click.echo(self.console.print_json(json.dumps(scopes)))
+        except Exception as err:
+            click.echo(self.console.print_json(json.dumps(
+                {"error": str(err)}
+            )))
+            sys.exit(1)

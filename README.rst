@@ -47,3 +47,10 @@ To use pexy, follow the following steps:
 .. code-block::
 
     $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx store info
+
+
+6. Get Access Scope.
+
+.. code-block::
+
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx access scope
