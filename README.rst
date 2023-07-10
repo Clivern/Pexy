@@ -46,4 +46,4 @@ To use pexy, follow the following steps:
 
 .. code-block::
 
-    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx store-info
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx store info
