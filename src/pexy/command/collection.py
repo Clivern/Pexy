@@ -19,16 +19,3 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
-
-from .store import StoreInfo as StoreInfoCommand
-from .access import AccessScopes as AccessScopesCommand
-from .product import (
-    ListAllProducts as ListAllProductsCommand,
-    ListSomeProducts as ListSomeProductsCommand,
-    GetProduct as GetProductCommand,
-    CreateProduct as CreateProductCommand,
-    UpdateProduct as UpdateProductCommand,
-    DeleteProduct as DeleteProductCommand,
-    CountProducts as CountProductsCommand,
-)

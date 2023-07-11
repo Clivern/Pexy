@@ -25,17 +25,17 @@ import requests
 
 class Shopify:
 
-    def __init__(self, shop_name, access_token):
-        self.shop_name = shop_name
-        self.access_token = access_token
-        self.base_url = f"https://{self.shop_name}.myshopify.com"
+    def __init__(self, name, token):
+        self.name = name
+        self.token = token
+        self.base_url = f"https://{self.name}.myshopify.com"
 
     def get_shop_info(self):
         url = f"{self.base_url}/admin/api/2021-07/shop.json"
 
         headers = {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': self.access_token
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
         }
 
         response = requests.get(url, headers=headers)
@@ -49,13 +49,107 @@ class Shopify:
         url = f"{self.base_url}/admin/oauth/access_scopes.json"
 
         headers = {
-            'Content-Type': 'application/json',
-            'X-Shopify-Access-Token': self.access_token
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
         }
 
         response = requests.get(url, headers=headers)
 
         if response.status_code == 200:
             return response.json()
+        else:
+            response.raise_for_status()
+
+    def create_product(self, product_data):
+        url = f"{self.base_url}/admin/api/2024-07/products.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.post(url, headers=headers, json={"product": product_data})
+
+        if response.status_code == 201:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_product(self, product_id):
+        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_product_count(self):
+        url = f"{self.base_url}/admin/api/2024-07/products/count.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_products(self, product_ids=None):
+        if not product_ids:
+            url = f"{self.base_url}/admin/api/2024-07/products.json"
+        else:
+            ids = ",".join(map(str, product_ids))
+            url = f"{self.base_url}/admin/api/2024-07/products.json?ids={ids}"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def update_product(self, product_id, product_data):
+        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.put(url, headers=headers, json={"product": product_data})
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def delete_product(self, product_id):
+        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.delete(url, headers=headers)
+
+        if response.status_code == 204:
+            return True
         else:
             response.raise_for_status()

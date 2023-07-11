@@ -2,6 +2,12 @@
 Changelog
 =========
 
+Version 0.7.0
+=============
+
+- Add product commands for listing and count
+
+
 Version 0.3.0
 =============
 

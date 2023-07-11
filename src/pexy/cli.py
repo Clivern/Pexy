@@ -23,14 +23,20 @@
 import click
 
 from pexy import __version__
-from pexy.command import StoreInfo as StoreInfoCommand
-from pexy.command import AccessScopes as AccessScopesCommand
+from pexy.command import (
+    StoreInfoCommand,
+    AccessScopesCommand,
+    ListAllProductsCommand,
+    CountProductsCommand,
+)
 
 
 @click.group(help="🐺 Shopify Store Swiss Knife.")
 @click.version_option(version=__version__, help="Show the current version")
-@click.option('--name', required=True, help='Your Shopify store name (without .myshopify.com)')
-@click.option('--token', required=True, help='Your Shopify access token')
+@click.option(
+    "--name", required=True, help="Your Shopify store name (without .myshopify.com)"
+)
+@click.option("--token", required=True, help="Your Shopify access token")
 def main(name, token):
     """Main command group for Shopify CLI."""
     global NAME, TOKEN
@@ -38,10 +44,30 @@ def main(name, token):
     TOKEN = token
 
 
+@main.group(help="Commands related to product operations")
+def product():
+    """Product command group for product operations."""
+    pass
+
+
 @main.group(help="Commands related to store operations")
 def store():
-    """Store command group for Shopify operations."""
+    """Store command group for store operations."""
     pass
+
+
+@product.command(help="Get products list")
+def list():
+    """Command to retrieve all products."""
+    command = ListAllProductsCommand(NAME, TOKEN)
+    return command.exec()
+
+
+@product.command(help="Get products count")
+def count():
+    """Command to retrieve products count."""
+    command = CountProductsCommand(NAME, TOKEN)
+    return command.exec()
 
 
 @main.group(help="Commands related to store access")

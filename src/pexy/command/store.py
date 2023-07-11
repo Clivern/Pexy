@@ -23,6 +23,7 @@
 import sys
 import json
 import click
+
 from rich.json import JSON
 from pexy.module import Shopify
 from rich.console import Console
@@ -39,7 +40,5 @@ class StoreInfo:
             shop_info = self.shopify.get_shop_info()
             click.echo(self.console.print_json(json.dumps(shop_info)))
         except Exception as err:
-            click.echo(self.console.print_json(json.dumps(
-                {"error": str(err)}
-            )))
+            click.echo(self.console.print_json(json.dumps({"error": str(err)})))
             sys.exit(1)
