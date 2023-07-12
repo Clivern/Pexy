@@ -77,33 +77,33 @@ def list():
 
 @product.command(help="Create a new product from a JSON file")
 @click.option(
-    "-d",
-    "--data-file",
-    "data_file",
+    "-p",
+    "--payload",
+    "payload",
     required=True,
     type=click.File(),
     help="Path to the JSON file containing product data.",
 )
-def create(data_file):
+def create(payload):
     """Command to create a new product using data from a JSON file."""
     command = CreateProductCommand(NAME, TOKEN)
-    command.exec(json.loads(data_file.read()))
+    command.exec(json.loads(payload.read()))
 
 
 @product.command(help="Update an existing product by ID from a JSON file")
 @click.argument("product_id")
 @click.option(
-    "-d",
-    "--data-file",
-    "data_file",
+    "-p",
+    "--payload",
+    "payload",
     required=True,
     type=click.File(),
     help="Path to the JSON file containing product data.",
 )
-def update(product_id, data_file):
+def update(product_id, payload):
     """Command to update an existing product using data from a JSON file."""
     command = UpdateProductCommand(NAME, TOKEN)
-    command.exec(product_id, json.loads(data_file.read()))
+    command.exec(product_id, json.loads(payload.read()))
 
 
 @product.command(help="Get products by IDs")
