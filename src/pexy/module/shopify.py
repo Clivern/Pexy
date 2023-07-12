@@ -25,13 +25,14 @@ import requests
 
 class Shopify:
 
-    def __init__(self, name, token):
+    def __init__(self, name, token, api_version="2024-07"):
         self.name = name
         self.token = token
+        self.api_version = api_version
         self.base_url = f"https://{self.name}.myshopify.com"
 
     def get_shop_info(self):
-        url = f"{self.base_url}/admin/api/2021-07/shop.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/shop.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -61,7 +62,7 @@ class Shopify:
             response.raise_for_status()
 
     def create_product(self, product_data):
-        url = f"{self.base_url}/admin/api/2024-07/products.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/products.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -76,7 +77,7 @@ class Shopify:
             response.raise_for_status()
 
     def get_product(self, product_id):
-        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/products/{product_id}.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -91,7 +92,7 @@ class Shopify:
             response.raise_for_status()
 
     def get_product_count(self):
-        url = f"{self.base_url}/admin/api/2024-07/products/count.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/products/count.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -107,7 +108,7 @@ class Shopify:
 
     def get_products(self, product_ids=None):
         if not product_ids:
-            url = f"{self.base_url}/admin/api/2024-07/products.json"
+            url = f"{self.base_url}/admin/api/{self.api_version}/products.json"
         else:
             ids = ",".join(map(str, product_ids))
             url = f"{self.base_url}/admin/api/2024-07/products.json?ids={ids}"
@@ -125,7 +126,7 @@ class Shopify:
             response.raise_for_status()
 
     def update_product(self, product_id, product_data):
-        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/products/{product_id}.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -140,7 +141,7 @@ class Shopify:
             response.raise_for_status()
 
     def delete_product(self, product_id):
-        url = f"{self.base_url}/admin/api/2024-07/products/{product_id}.json"
+        url = f"{self.base_url}/admin/api/{self.api_version}/products/{product_id}.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -149,7 +150,82 @@ class Shopify:
 
         response = requests.delete(url, headers=headers)
 
-        if response.status_code == 204:
+        if response.status_code == 200:
+            return True
+        else:
+            response.raise_for_status()
+
+    def create_collect(self, collect_data):
+        url = f"{self.base_url}/admin/api/{self.api_version}/collects.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.post(url, headers=headers, json=collect_data)
+
+        if response.status_code == 201:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_collects(self):
+        url = f"{self.base_url}/admin/api/{self.api_version}/collects.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_collect(self, collect_id):
+        url = f"{self.base_url}/admin/api/{self.api_version}/collects/{collect_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_collect_count(self):
+        url = f"{self.base_url}/admin/api/{self.api_version}/collects/count.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.get(url, headers=headers)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def delete_collect(self, collect_id):
+        url = f"{self.base_url}/admin/api/{self.api_version}/collects/{collect_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.delete(url, headers=headers)
+
+        if response.status_code == 200:
             return True
         else:
             response.raise_for_status()

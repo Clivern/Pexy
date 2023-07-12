@@ -34,6 +34,11 @@ from pexy.command import (
     CreateProductCommand,
     UpdateProductCommand,
     CountProductsCommand,
+    CreateCollectCommand,
+    ListCollectCommand,
+    GetCollectCommand,
+    CountCollectCommand,
+    DeleteCollectCommand,
 )
 
 
@@ -48,6 +53,12 @@ def main(name, token):
     global NAME, TOKEN
     NAME = name
     TOKEN = token
+
+
+@main.group(help="Commands related to collect operations")
+def collect():
+    """Collect command group for collect operations."""
+    pass
 
 
 @main.group(help="Commands related to product operations")
@@ -66,6 +77,51 @@ def store():
 def access():
     """Access command group for scopes and permissions."""
     pass
+
+
+@collect.command(help="Get collect list")
+def list():
+    """Command to retrieve all collects."""
+    command = ListCollectCommand(NAME, TOKEN)
+    return command.exec()
+
+
+@collect.command(help="Create a new collect from a JSON file")
+@click.option(
+    "-p",
+    "--payload",
+    "payload",
+    required=True,
+    type=click.File(),
+    help="Path to the JSON file containing product data.",
+)
+def create(payload):
+    """Command to create a new collect using data from a JSON file."""
+    command = CreateCollectCommand(NAME, TOKEN)
+    command.exec(json.loads(payload.read()))
+
+
+@collect.command(help="Get collect by ID")
+@click.argument("collect_id")
+def get(collect_id):
+    """Command to retrieve a specific collect by its ID."""
+    command = GetCollectCommand(NAME, TOKEN)
+    command.exec(collect_id)
+
+
+@collect.command(help="Delete a specific collect by ID")
+@click.argument("collect_id")
+def delete(collect_id):
+    """Command to delete a specific collect by its ID."""
+    command = DeleteCollectCommand(NAME, TOKEN)
+    command.exec(collect_id)
+
+
+@collect.command(help="Get collect count")
+def count():
+    """Command to retrieve collect count."""
+    command = CountCollectCommand(NAME, TOKEN)
+    return command.exec()
 
 
 @product.command(help="Get products list")

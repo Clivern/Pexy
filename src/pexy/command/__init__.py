@@ -20,7 +20,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-
 from .store import StoreInfo as StoreInfoCommand
 from .access import AccessScopes as AccessScopesCommand
 from .product import (
@@ -31,4 +30,11 @@ from .product import (
     UpdateProduct as UpdateProductCommand,
     DeleteProduct as DeleteProductCommand,
     CountProducts as CountProductsCommand,
+)
+from .collect import (
+    CreateCollect as CreateCollectCommand,
+    ListCollect as ListCollectCommand,
+    GetCollect as GetCollectCommand,
+    CountCollect as CountCollectCommand,
+    DeleteCollect as DeleteCollectCommand,
 )
