@@ -25,8 +25,13 @@ import click
 from pexy import __version__
 from pexy.command import (
     StoreInfoCommand,
+    GetProductCommand,
+    DeleteProductCommand,
     AccessScopesCommand,
     ListAllProductsCommand,
+    ListSomeProductsCommand,
+    CreateProductCommand,
+    UpdateProductCommand,
     CountProductsCommand,
 )
 
@@ -56,6 +61,12 @@ def store():
     pass
 
 
+@main.group(help="Commands related to store access")
+def access():
+    """Access command group for scopes and permissions."""
+    pass
+
+
 @product.command(help="Get products list")
 def list():
     """Command to retrieve all products."""
@@ -63,17 +74,31 @@ def list():
     return command.exec()
 
 
+@product.command(help="Get products by IDs")
+@click.argument("product_ids")
+def get(product_ids):
+    """Command to retrieve a specific product by its ID."""
+    if "," in str(product_ids):
+        command = ListSomeProductsCommand(NAME, TOKEN)
+        command.exec(product_ids)
+    else:
+        command = GetProductCommand(NAME, TOKEN)
+        command.exec(product_ids)
+
+
+@product.command(help="Delete a specific product by ID")
+@click.argument("product_id")
+def delete(product_id):
+    """Command to delete a specific product by its ID."""
+    command = DeleteProductCommand(NAME, TOKEN)
+    command.exec(product_id)
+
+
 @product.command(help="Get products count")
 def count():
     """Command to retrieve products count."""
     command = CountProductsCommand(NAME, TOKEN)
     return command.exec()
-
-
-@main.group(help="Commands related to store access")
-def access():
-    """Access command group for scopes and permissions."""
-    pass
 
 
 @store.command(help="Get store information from Shopify")
