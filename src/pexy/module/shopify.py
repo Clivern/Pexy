@@ -68,7 +68,7 @@ class Shopify:
             "X-Shopify-Access-Token": self.token,
         }
 
-        response = requests.post(url, headers=headers, json={"product": product_data})
+        response = requests.post(url, headers=headers, json=product_data)
 
         if response.status_code == 201:
             return response.json()
@@ -132,7 +132,7 @@ class Shopify:
             "X-Shopify-Access-Token": self.token,
         }
 
-        response = requests.put(url, headers=headers, json={"product": product_data})
+        response = requests.put(url, headers=headers, json=product_data)
 
         if response.status_code == 200:
             return response.json()
