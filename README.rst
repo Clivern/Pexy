@@ -54,3 +54,28 @@ To use pexy, follow the following steps:
 .. code-block::
 
     $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx access scope
+
+
+7. Collection commands.
+
+.. code-block::
+
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection create -p payload.json
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection update <id> -p payload.json
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection list <id>,<id>
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection get <id>
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection count
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx collection delete <id>
+
+
+8. Product commands.
+
+.. code-block::
+
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product list
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product list <id>,<id>
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product get <id>
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product count
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product delete <id>
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product create -p payload.json
+    $ pexy --name xxxxx-xx --token shpat_xxxxxxxxxxxxx product update <id> -p payload.json

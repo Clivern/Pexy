@@ -157,6 +157,14 @@ def list(product_ids):
         return command.exec(None)
 
 
+@product.command(help="Get product by ID")
+@click.argument("product_id")
+def get(product_id):
+    """Command to retrieve a specific product by its ID."""
+    command = GetProductCommand(NAME, TOKEN)
+    command.exec(product_id)
+
+
 @product.command(help="Create a new product from a JSON file")
 @click.option(
     "-p",
