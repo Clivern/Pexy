@@ -1,6 +1,6 @@
 PYTHON ?= python
-PIP ?= $(PYTHON) -m pip
-TOX ?= tox
+PIP    ?= $(PYTHON) -m pip
+TOX    ?= tox
 
 
 help: Makefile
