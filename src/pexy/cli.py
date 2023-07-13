@@ -29,8 +29,7 @@ from pexy.command import (
     GetProductCommand,
     DeleteProductCommand,
     AccessScopesCommand,
-    ListAllProductsCommand,
-    ListSomeProductsCommand,
+    ListProductsCommand,
     CreateProductCommand,
     UpdateProductCommand,
     CountProductsCommand,
@@ -147,10 +146,15 @@ def count():
 
 
 @product.command(help="Get products list")
-def list():
+@click.argument("product_ids", required=False)
+def list(product_ids):
     """Command to retrieve all products."""
-    command = ListAllProductsCommand(NAME, TOKEN)
-    return command.exec()
+    command = ListProductsCommand(NAME, TOKEN)
+
+    if product_ids:
+        return command.exec(product_ids)
+    else:
+        return command.exec(None)
 
 
 @product.command(help="Create a new product from a JSON file")
@@ -182,18 +186,6 @@ def update(product_id, payload):
     """Command to update an existing product using data from a JSON file."""
     command = UpdateProductCommand(NAME, TOKEN)
     command.exec(product_id, json.loads(payload.read()))
-
-
-@product.command(help="Get products by IDs")
-@click.argument("product_ids")
-def get(product_ids):
-    """Command to retrieve a specific product by its ID."""
-    if "," in str(product_ids):
-        command = ListSomeProductsCommand(NAME, TOKEN)
-        command.exec(product_ids)
-    else:
-        command = GetProductCommand(NAME, TOKEN)
-        command.exec(product_ids)
 
 
 @product.command(help="Delete a specific product by ID")

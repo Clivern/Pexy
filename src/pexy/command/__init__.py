@@ -23,8 +23,7 @@
 from .store import StoreInfo as StoreInfoCommand
 from .access import AccessScopes as AccessScopesCommand
 from .product import (
-    ListAllProducts as ListAllProductsCommand,
-    ListSomeProducts as ListSomeProductsCommand,
+    ListProducts as ListProductsCommand,
     GetProduct as GetProductCommand,
     CreateProduct as CreateProductCommand,
     UpdateProduct as UpdateProductCommand,

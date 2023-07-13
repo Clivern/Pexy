@@ -29,28 +29,13 @@ from pexy.module import Shopify
 from rich.console import Console
 
 
-class ListAllProducts:
+class ListProducts:
 
     def __init__(self, name, token):
         self.console = Console()
         self.shopify = Shopify(name, token)
 
-    def exec(self):
-        try:
-            products = self.shopify.get_products()
-            click.echo(self.console.print_json(json.dumps(products)))
-        except Exception as err:
-            click.echo(self.console.print_json(json.dumps({"error": str(err)})))
-            sys.exit(1)
-
-
-class ListSomeProducts:
-
-    def __init__(self, name, token):
-        self.console = Console()
-        self.shopify = Shopify(name, token)
-
-    def exec(self, product_ids):
+    def exec(self, product_ids=None):
         try:
             products = self.shopify.get_products(product_ids)
             click.echo(self.console.print_json(json.dumps(products)))

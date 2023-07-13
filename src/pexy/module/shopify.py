@@ -110,8 +110,7 @@ class Shopify:
         if not product_ids:
             url = f"{self.base_url}/admin/api/{self.api_version}/products.json"
         else:
-            ids = ",".join(map(str, product_ids))
-            url = f"{self.base_url}/admin/api/2024-07/products.json?ids={ids}"
+            url = f"{self.base_url}/admin/api/2024-07/products.json?ids={product_ids}"
 
         headers = {
             "Content-Type": "application/json",
@@ -191,8 +190,7 @@ class Shopify:
                 f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json"
             )
         else:
-            ids = ",".join(map(str, collection_ids))
-            url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json?ids={ids}"
+            url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json?ids={collection_ids}"
 
         headers = {
             "Content-Type": "application/json",
