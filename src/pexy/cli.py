@@ -34,11 +34,12 @@ from pexy.command import (
     CreateProductCommand,
     UpdateProductCommand,
     CountProductsCommand,
-    CreateCollectCommand,
-    ListCollectCommand,
-    GetCollectCommand,
-    CountCollectCommand,
-    DeleteCollectCommand,
+    CreateCollectionCommand,
+    UpdateCollectionCommand,
+    ListCollectionCommand,
+    GetCollectionCommand,
+    CountCollectionCommand,
+    DeleteCollectionCommand,
 )
 
 
@@ -55,9 +56,9 @@ def main(name, token):
     TOKEN = token
 
 
-@main.group(help="Commands related to collect operations")
-def collect():
-    """Collect command group for collect operations."""
+@main.group(help="Commands related to collection operations")
+def collection():
+    """Collection command group for collection operations."""
     pass
 
 
@@ -79,48 +80,69 @@ def access():
     pass
 
 
-@collect.command(help="Get collect list")
-def list():
-    """Command to retrieve all collects."""
-    command = ListCollectCommand(NAME, TOKEN)
-    return command.exec()
+@collection.command(help="Get collection list")
+@click.argument("collection_ids", required=False)
+def list(collection_ids):
+    """Command to retrieve all collections."""
+    command = ListCollectionCommand(NAME, TOKEN)
+
+    if collection_ids:
+        return command.exec(collection_ids)
+    else:
+        return command.exec(None)
 
 
-@collect.command(help="Create a new collect from a JSON file")
+@collection.command(help="Create a new collection from a JSON file")
 @click.option(
     "-p",
     "--payload",
     "payload",
     required=True,
     type=click.File(),
-    help="Path to the JSON file containing product data.",
+    help="Path to the JSON file containing collection data.",
 )
 def create(payload):
-    """Command to create a new collect using data from a JSON file."""
-    command = CreateCollectCommand(NAME, TOKEN)
+    """Command to create a new collection using data from a JSON file."""
+    command = CreateCollectionCommand(NAME, TOKEN)
     command.exec(json.loads(payload.read()))
 
 
-@collect.command(help="Get collect by ID")
-@click.argument("collect_id")
-def get(collect_id):
-    """Command to retrieve a specific collect by its ID."""
-    command = GetCollectCommand(NAME, TOKEN)
-    command.exec(collect_id)
+@collection.command(help="Update an existing collection by ID from a JSON file")
+@click.argument("collection_id")
+@click.option(
+    "-p",
+    "--payload",
+    "payload",
+    required=True,
+    type=click.File(),
+    help="Path to the JSON file containing collection data.",
+)
+def update(collection_id, payload):
+    """Command to update an existing collection using data from a JSON file."""
+    command = UpdateCollectionCommand(NAME, TOKEN)
+    command.exec(collection_id, json.loads(payload.read()))
 
 
-@collect.command(help="Delete a specific collect by ID")
-@click.argument("collect_id")
-def delete(collect_id):
-    """Command to delete a specific collect by its ID."""
-    command = DeleteCollectCommand(NAME, TOKEN)
-    command.exec(collect_id)
+@collection.command(help="Get collection by ID")
+@click.argument("collection_id")
+def get(collection_id):
+    """Command to retrieve a specific collection by its ID."""
+    command = GetCollectionCommand(NAME, TOKEN)
+    command.exec(collection_id)
 
 
-@collect.command(help="Get collect count")
+@collection.command(help="Delete a specific collection by ID")
+@click.argument("collection_id")
+def delete(collection_id):
+    """Command to delete a specific collection by its ID."""
+    command = DeleteCollectionCommand(NAME, TOKEN)
+    command.exec(collection_id)
+
+
+@collection.command(help="Get collection count")
 def count():
-    """Command to retrieve collect count."""
-    command = CountCollectCommand(NAME, TOKEN)
+    """Command to retrieve collection count."""
+    command = CountCollectionCommand(NAME, TOKEN)
     return command.exec()
 
 

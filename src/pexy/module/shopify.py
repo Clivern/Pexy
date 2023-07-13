@@ -155,23 +155,44 @@ class Shopify:
         else:
             response.raise_for_status()
 
-    def create_collect(self, collect_data):
-        url = f"{self.base_url}/admin/api/{self.api_version}/collects.json"
+    def create_collection(self, collection_data):
+        url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json"
 
         headers = {
             "Content-Type": "application/json",
             "X-Shopify-Access-Token": self.token,
         }
 
-        response = requests.post(url, headers=headers, json=collect_data)
+        response = requests.post(url, headers=headers, json=collection_data)
 
         if response.status_code == 201:
             return response.json()
         else:
             response.raise_for_status()
 
-    def get_collects(self):
-        url = f"{self.base_url}/admin/api/{self.api_version}/collects.json"
+    def update_collection(self, collection_id, collection_data):
+        url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections/{collection_id}.json"
+
+        headers = {
+            "Content-Type": "application/json",
+            "X-Shopify-Access-Token": self.token,
+        }
+
+        response = requests.put(url, headers=headers, json=collection_data)
+
+        if response.status_code == 200:
+            return response.json()
+        else:
+            response.raise_for_status()
+
+    def get_collections(self, collection_ids=None):
+        if not collection_ids:
+            url = (
+                f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json"
+            )
+        else:
+            ids = ",".join(map(str, collection_ids))
+            url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections.json?ids={ids}"
 
         headers = {
             "Content-Type": "application/json",
@@ -185,8 +206,8 @@ class Shopify:
         else:
             response.raise_for_status()
 
-    def get_collect(self, collect_id):
-        url = f"{self.base_url}/admin/api/{self.api_version}/collects/{collect_id}.json"
+    def get_collection(self, collection_id):
+        url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections/{collection_id}.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -200,8 +221,8 @@ class Shopify:
         else:
             response.raise_for_status()
 
-    def get_collect_count(self):
-        url = f"{self.base_url}/admin/api/{self.api_version}/collects/count.json"
+    def get_collection_count(self):
+        url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections/count.json"
 
         headers = {
             "Content-Type": "application/json",
@@ -215,8 +236,8 @@ class Shopify:
         else:
             response.raise_for_status()
 
-    def delete_collect(self, collect_id):
-        url = f"{self.base_url}/admin/api/{self.api_version}/collects/{collect_id}.json"
+    def delete_collection(self, collection_id):
+        url = f"{self.base_url}/admin/api/{self.api_version}/custom_collections/{collection_id}.json"
 
         headers = {
             "Content-Type": "application/json",

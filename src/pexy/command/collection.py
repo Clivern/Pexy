@@ -29,52 +29,67 @@ from pexy.module import Shopify
 from rich.console import Console
 
 
-class CreateCollect:
+class CreateCollection:
 
     def __init__(self, name, token):
         self.console = Console()
         self.shopify = Shopify(name, token)
 
-    def exec(self, collect_data):
+    def exec(self, collection_data):
         try:
-            collect = self.shopify.create_collect(collect_data)
+            collect = self.shopify.create_collection(collection_data)
             click.echo(self.console.print_json(json.dumps(collect)))
         except Exception as err:
             click.echo(self.console.print_json(json.dumps({"error": str(err)})))
             sys.exit(1)
 
 
-class ListCollect:
+class UpdateCollection:
 
     def __init__(self, name, token):
         self.console = Console()
         self.shopify = Shopify(name, token)
 
-    def exec(self):
+    def exec(self, collection_id, collection_data):
         try:
-            collects = self.shopify.get_collects()
+            collect = self.shopify.update_collection(collection_id, collection_data)
+            click.echo(self.console.print_json(json.dumps(collect)))
+        except Exception as err:
+            click.echo(self.console.print_json(json.dumps({"error": str(err)})))
+            sys.exit(1)
+
+
+class ListCollection:
+
+    def __init__(self, name, token):
+        self.console = Console()
+        self.shopify = Shopify(name, token)
+
+    def exec(self, collection_ids=None):
+        try:
+            collects = self.shopify.get_collections(collection_ids)
             click.echo(self.console.print_json(json.dumps(collects)))
         except Exception as err:
             click.echo(self.console.print_json(json.dumps({"error": str(err)})))
             sys.exit(1)
 
 
-class GetCollect:
+class GetCollection:
 
     def __init__(self, name, token):
         self.console = Console()
         self.shopify = Shopify(name, token)
 
-    def exec(self, collect_id):
+    def exec(self, collection_id):
         try:
-            collect = self.shopify.get_collect(collect_id)
+            collect = self.shopify.get_collection(collection_id)
             click.echo(self.console.print_json(json.dumps(collect)))
         except Exception as err:
             click.echo(self.console.print_json(json.dumps({"error": str(err)})))
             sys.exit(1)
 
 
-class CountCollect:
+class CountCollection:
 
     def __init__(self, name, token):
         self.console = Console()
@@ -82,22 +97,22 @@ class CountCollect:
 
     def exec(self):
         try:
-            count = self.shopify.get_collect_count()
+            count = self.shopify.get_collection_count()
             click.echo(self.console.print_json(json.dumps(count)))
         except Exception as err:
             click.echo(self.console.print_json(json.dumps({"error": str(err)})))
             sys.exit(1)
 
 
-class DeleteCollect:
+class DeleteCollection:
 
     def __init__(self, name, token):
         self.console = Console()
         self.shopify = Shopify(name, token)
 
-    def exec(self, collect_id):
+    def exec(self, collection_id):
         try:
-            deleted = self.shopify.delete_collect(collect_id)
+            deleted = self.shopify.delete_collection(collection_id)
             if deleted:
                 click.echo("Collect deleted successfully.")
         except Exception as err:

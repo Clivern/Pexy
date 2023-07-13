@@ -31,10 +31,11 @@ from .product import (
     DeleteProduct as DeleteProductCommand,
     CountProducts as CountProductsCommand,
 )
-from .collect import (
-    CreateCollect as CreateCollectCommand,
-    ListCollect as ListCollectCommand,
-    GetCollect as GetCollectCommand,
-    CountCollect as CountCollectCommand,
-    DeleteCollect as DeleteCollectCommand,
+from .collection import (
+    CreateCollection as CreateCollectionCommand,
+    UpdateCollection as UpdateCollectionCommand,
+    ListCollection as ListCollectionCommand,
+    GetCollection as GetCollectionCommand,
+    CountCollection as CountCollectionCommand,
+    DeleteCollection as DeleteCollectionCommand,
 )
