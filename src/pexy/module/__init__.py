@@ -22,4 +22,3 @@
 
 from .shopify import Shopify
 from .logger import Logger
-from .output import Output
